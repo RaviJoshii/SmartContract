@@ -9,7 +9,7 @@
 <h1 style="font-family:verdana;color:white;"><center>SMART CONTRACT</center></h1>
 <br> 
 <center>
-<label  style="font-family:verdana;color:white;"> Your current balance:- </label><p id="balance"  style="font-family:verdana;color:white;"></p>
+<label  style="font-family:verdana;color:white;"> Your current bank balance:- </label><p id="balance"  style="font-family:verdana;color:white;">  </p>
 <input type="number" id="amt">
 <button onclick="depositfunction()">deposit </button>
 <button onclick="withdrawfunction()">Withdraw</button>
@@ -21,7 +21,7 @@
 	var contract;
 	$(document).ready(function(){
 		web3 = new Web3(web3.currentProvider);
-		var address="0xe6d1ee863ea127fb13f36368395bcccb7887dbb0";
+		var address="Your bank address";
 		var abi=[
 			{
 				"constant": false,
