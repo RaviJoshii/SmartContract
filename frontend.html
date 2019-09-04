@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>smart contract</title>
+</head>
+<body background="mainimage.png">
+<br>
+<br><br>
+<h1 style="font-family:verdana;color:white;"><center>SMART CONTRACT</center></h1>
+<br> 
+<center>
+<label  style="font-family:verdana;color:white;"> Your current balance:- </label><p id="balance"  style="font-family:verdana;color:white;"></p>
+<input type="number" id="amt">
+<button onclick="depositfunction()">deposit </button>
+<button onclick="withdrawfunction()">Withdraw</button>
+</center>
+<script  src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js">
+</script>
+<script  src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+<script>
+	var contract;
+	$(document).ready(function(){
+		web3 = new Web3(web3.currentProvider);
+		var address="0xe6d1ee863ea127fb13f36368395bcccb7887dbb0";
+		var abi=[
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "amt",
+						"type": "int256"
+					}
+				],
+				"name": "deposit",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "amt",
+						"type": "int256"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "getBalance",
+				"outputs": [
+					{
+						"name": "",
+						"type": "int256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+	];
+
+	contract=new web3.eth.contract(abi, address);
+	contract.methods.getBalance().call().then(function(bal){
+				//document.getElementById("balance").innerHTML = bal;
+				$('#balance').html(bal);
+		}) 
+	})
+
+
+
+
+	function withdrawfunction(){
+		var amt=0;
+		amt=parseInt(document.getElementById("amt").value);
+		web3.eth.getAccounts().then(function(accounts){
+			var acc=accounts[0];
+			console.log("rfe");
+			console.log(acc);
+			return contract.methods.withdraw(amt).send({from: acc});
+		}).then(function(tx){
+			console.log(tx);
+		}).catch(function(tx){
+			console.log(tx);
+		})
+	}
+
+
+	function depositfunction(){
+		var amt=0;
+		amt=parseInt(document.getElementById("amt").value);
+		web3.eth.getAccounts().then(function(accounts){
+			var acc=accounts[0];
+			return contract.methods.deposit(amt).send({from: acc});
+		}).then(function(tx){
+			console.log(tx);
+		}).catch(function(tx){
+			console.log(tx);
+		})
+	}
+
+
+
+</script>
+</body>
+</html>
